@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Mokkapati Kavyasri - Java Developer & Web Developer. BTech CSE student passionate about building impactful software." />
+  <meta name="keywords" content="Mokkapati Kavyasri, Java Developer, Web Developer, BTech CSE, Portfolio" />
+  <meta name="author" content="Mokkapati Kavyasri" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph Meta Tags (for social sharing) -->
+  <meta property="og:title" content="Mokkapati Kavyasri | Java & Web Developer" />
+  <meta property="og:description" content="Portfolio of Mokkapati Kavyasri - Java Developer & Web Developer." />
+  <meta property="og:type" content="website" />
+
+  <title>Mokkapati Kavyasri | Java & Web Developer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --accent: #7c6af7;
+      --accent2: #c084fc;
+      --text: #f0eeff;
+      --muted: #8b8aa0;
+      --border: rgba(124,106,247,0.2);
+      --card: rgba(255,255,255,0.04);
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ===== SKIP LINK (ACCESSIBILITY) ===== */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ===== HEADER / NAV ===== */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--accent);
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    /* ===== MAIN WRAPPER ===== */
+    main { padding-top: 80px; }
+
+    /* ===== HERO SECTION ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,106,247,0.15) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--accent2);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, #f0eeff, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 2px solid var(--accent);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background: transparent;
+      color: var(--accent);
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .btn-outline:hover,
+    .btn-outline:focus {
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 550px;
+      margin-bottom: 3rem;
+    }
+
+    /* ===== ABOUT ===== */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ===== SKILLS ===== */
+    #skills { background: var(--bg2); max-width: 100%; }
+    #skills > .inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .skill-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ===== PROJECTS ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    article.project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    article.project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .project-tag {
+      display: inline-block;
+      background: rgba(124,106,247,0.15);
+      color: var(--accent2);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+
+    article.project-card h3 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    article.project-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    article.project-card a {
+      color: var(--accent);
+      font-size: 0.85rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    article.project-card a:hover,
+    article.project-card a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ===== CONTACT FORM ===== */
+    #contact { background: var(--bg2); max-width: 100%; }
+    #contact > .inner { max-width: 700px; margin: 0 auto; padding: 5rem 2rem; text-align: center; }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 2rem;
+      text-align: left;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    input, textarea, select {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,106,247,0.2);
+    }
+
+    textarea { resize: vertical; min-height: 140px; }
+
+    .form-submit {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .form-submit:hover { background: #6a58e0; }
+    .form-submit:focus {
+      outline: 3px solid var(--accent2);
+      outline-offset: 3px;
+    }
+    .form-submit:active { transform: scale(0.98); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover, footer a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      #about .about-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Skip to main content link for keyboard/screen reader users -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ===== HEADER ===== -->
+  <header role="banner">
+    <nav aria-label="Main navigation">
+      <a href="#hero" class="nav-logo" aria-label="Kavyasri - Home">KM</a>
+      <ul class="nav-links" role="list">
+        <li><a href="#about"    aria-label="About section">About</a></li>
+        <li><a href="#skills"   aria-label="Skills section">Skills</a></li>
+        <li><a href="#projects" aria-label="Projects section">Projects</a></li>
+        <li><a href="#contact"  aria-label="Contact section">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main id="main-content">
+
+    <!-- HERO -->
+    <section id="hero" aria-labelledby="hero-heading">
+      <div class="hero-content">
+        <span class="hero-tag" aria-label="Current status">BTech CSE · 3rd Year</span>
+        <h1 id="hero-heading">Mokkapati<br/>Kavyasri</h1>
+        <p class="hero-sub">Java Developer &amp; Web Developer — building clean, impactful software across 6 internships.</p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn btn-primary" aria-label="View my projects">View Projects</a>
+          <a href="#contact"  class="btn btn-outline" aria-label="Contact me">Contact Me</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-heading">
+      <p class="section-label" aria-hidden="true">About Me</p>
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 id="about-heading">Passionate Developer</h2>
+          <p>I'm Kavyasri, a 3rd year BTech CSE student from Bhimavaram, Andhra Pradesh. I love building real-world applications using Java and web technologies.</p>
+          <p>Currently completing 6 internships simultaneously — CodeAlpha, DecodeLabs, Alfido Tech, Thiranex, Future Interns, and SkillCraft Technology.</p>
+          <a href="#contact" class="btn btn-primary" style="margin-top:1rem;display:inline-block" aria-label="Get in touch with me">Get in Touch</a>
+        </div>
+        <div class="about-stats" role="list" aria-label="Key statistics">
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" aria-label="6 internships">6</div>
+            <div class="stat-label">Internships</div>
+          </div>
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" aria-label="10 plus projects">10+</div>
+            <div class="stat-label">Projects Built</div>
+          </div>
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" aria-label="3rd year">3rd</div>
+            <div class="stat-label">Year BTech</div>
+          </div>
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" aria-label="2026 batch">2026</div>
+            <div class="stat-label">Batch</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" aria-labelledby="skills-heading">
+      <div class="inner">
+        <p class="section-label" aria-hidden="true">What I Know</p>
+        <h2 id="skills-heading">Skills &amp; Technologies</h2>
+        <p class="section-desc">Technologies I have worked with during my internships and academic projects.</p>
+        <div class="skills-grid">
+          <article class="skill-card" aria-label="Java programming skill">
+            <div class="skill-icon" aria-hidden="true">☕</div>
+            <h3>Java Development</h3>
+            <p>Core Java, OOP, File Handling, Collections, Exception Handling, Multithreading.</p>
+          </article>
+          <article class="skill-card" aria-label="Web development skill">
+            <div class="skill-icon" aria-hidden="true">🌐</div>
+            <h3>Web Development</h3>
+            <p>HTML5, CSS3, JavaScript, Semantic Markup, Responsive Design, Accessibility.</p>
+          </article>
+          <article class="skill-card" aria-label="Machine learning skill">
+            <div class="skill-icon" aria-hidden="true">🤖</div>
+            <h3>Machine Learning</h3>
+            <p>Python, scikit-learn, data preprocessing, model building and evaluation.</p>
+          </article>
+          <article class="skill-card" aria-label="Version control skill">
+            <div class="skill-icon" aria-hidden="true">🔧</div>
+            <h3>Tools &amp; Git</h3>
+            <p>Git, GitHub, VS Code, IntelliJ IDEA, Maven, command line basics.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" aria-labelledby="projects-heading">
+      <p class="section-label" aria-hidden="true">My Work</p>
+      <h2 id="projects-heading">Internship Projects</h2>
+      <p class="section-desc">Projects built during my 6 active internships in 2026.</p>
+      <div class="projects-grid">
+
+        <article class="project-card" aria-label="Number Guessing Game project">
+          <span class="project-tag">DecodeLabs · Java</span>
+          <h3>Number Guessing Game</h3>
+          <p>A console-based game using Random class, loops, conditionals, and scoring system with multiple rounds.</p>
+          <a href="https://github.com/mokkapatikavyasri-dot/DecodeLabs_Java_P1" target="_blank" rel="noopener noreferrer" aria-label="View Number Guessing Game on GitHub">View on GitHub →</a>
+        </article>
+
+        <article class="project-card" aria-label="Student Grade Tracker project">
+          <span class="project-tag">CodeAlpha · Java</span>
+          <h3>Student Grade Tracker</h3>
+          <p>Manage multiple students, calculate averages, highest/lowest scores with letter grade assignment.</p>
+          <a href="https://github.com/mokkapatikavyasri-dot/CodeAlpha_StudentGradeTracker" target="_blank" rel="noopener noreferrer" aria-label="View Student Grade Tracker on GitHub">View on GitHub →</a>
+        </article>
+
+        <article class="project-card" aria-label="Hotel Reservation System project">
+          <span class="project-tag">CodeAlpha · Java</span>
+          <h3>Hotel Reservation System</h3>
+          <p>Full hotel booking system with room categories, reservations, cancellations and payment simulation.</p>
+          <a href="https://github.com/mokkapatikavyasri-dot/CodeAlpha_HotelReservationSystem" target="_blank" rel="noopener noreferrer" aria-label="View Hotel Reservation System on GitHub">View on GitHub →</a>
+        </article>
+
+        <article class="project-card" aria-label="Stock Trading Platform project">
+          <span class="project-tag">CodeAlpha · Java</span>
+          <h3>Stock Trading Platform</h3>
+          <p>Simulated Indian stock market with buy/sell operations, portfolio tracking, and profit/loss display.</p>
+          <a href="https://github.com/mokkapatikavyasri-dot/CodeAlpha_StockTradingPlatform" target="_blank" rel="noopener noreferrer" aria-label="View Stock Trading Platform on GitHub">View on GitHub →</a>
+        </article>
+
+        <article class="project-card" aria-label="Student Management System project">
+          <span class="project-tag">Alfido Tech · Java</span>
+          <h3>Student Management System</h3>
+          <p>Console-based CRUD system for managing students with OOP principles and ArrayList data structures.</p>
+          <a href="https://github.com/mokkapatikavyasri-dot" target="_blank" rel="noopener noreferrer" aria-label="View Student Management System on GitHub">View on GitHub →</a>
+        </article>
+
+        <article class="project-card" aria-label="Portfolio Website project">
+          <span class="project-tag">Thiranex · Web Dev</span>
+          <h3>Portfolio Website</h3>
+          <p>Semantic HTML5 portfolio with WCAG accessibility, ARIA labels, SEO meta tags and accessible contact form.</p>
+          <a href="#" aria-label="Currently viewing this project">Currently Viewing →</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="inner">
+        <p class="section-label" aria-hidden="true">Get In Touch</p>
+        <h2 id="contact-heading">Contact Me</h2>
+        <p class="section-desc">Have an opportunity or want to connect? Fill the form below!</p>
+
+        <form
+          action="#"
+          method="post"
+          aria-label="Contact form"
+          novalidate
+        >
+          <div class="form-group">
+            <label for="full-name">Full Name <span aria-label="required">*</span></label>
+            <input
+              type="text"
+              id="full-name"
+              name="full-name"
+              placeholder="Your full name"
+              required
+              aria-required="true"
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address <span aria-label="required">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              aria-required="true"
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject <span aria-label="required">*</span></label>
+            <select id="subject" name="subject" required aria-required="true">
+              <option value="" disabled selected>Select a subject</option>
+              <option value="job">Job Opportunity</option>
+              <option value="internship">Internship</option>
+              <option value="project">Project Collaboration</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message <span aria-label="required">*</span></label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Write your message here..."
+              required
+              aria-required="true"
+              minlength="10"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="form-submit" aria-label="Send contact message">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer role="contentinfo">
+    <p>
+      &copy; 2026 Mokkapati Kavyasri · Built for
+      <a href="https://thiranex.in" target="_blank" rel="noopener noreferrer" aria-label="Thiranex website">Thiranex</a>
+      Web Development Internship
+    </p>
+  </footer>
+
+</body>
+</html>
