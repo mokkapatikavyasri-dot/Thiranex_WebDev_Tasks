@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="To-Do List App - Thiranex JavaScript Internship Task by Mokkapati Kavyasri" />
+  <title>TaskFlow · To-Do App | Thiranex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg:        #0f0f13;
+      --bg2:       #18181f;
+      --bg3:       #22222c;
+      --accent:    #f97316;
+      --accent2:   #fb923c;
+      --green:     #22c55e;
+      --red:       #ef4444;
+      --text:      #f1f0f5;
+      --muted:     #7a7890;
+      --border:    rgba(249,115,22,0.15);
+      --card:      rgba(255,255,255,0.03);
+      --radius:    12px;
+      --shadow:    0 4px 24px rgba(0,0,0,0.35);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { font-size:16px; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .app-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--text) 40%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      flex: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== INPUT AREA ===== */
+    .input-area {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    #taskInput {
+      flex: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1.1rem;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    #taskInput:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+    }
+
+    #taskInput::placeholder { color: var(--muted); }
+
+    #addBtn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.85rem 1.4rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    #addBtn:hover  { background: #ea6c0a; }
+    #addBtn:active { transform: scale(0.97); }
+    #addBtn:focus  { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ===== FILTER TABS ===== */
+    .filters {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.4rem;
+    }
+
+    .filter-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 0.55rem 0.8rem;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover { color: var(--text); background: var(--bg3); }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .filter-btn:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ===== TASK LIST ===== */
+    #taskList {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      list-style: none;
+      min-height: 200px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+
+    .empty-icon  { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+    .empty-text  { font-size: 0.95rem; }
+
+    /* Task item */
+    .task-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, transform 0.15s, opacity 0.2s;
+      animation: slideIn 0.2s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .task-item:hover { border-color: rgba(249,115,22,0.3); }
+
+    .task-item.completed {
+      opacity: 0.6;
+      border-color: rgba(34,197,94,0.2);
+    }
+
+    /* Custom checkbox */
+    .task-checkbox {
+      width: 20px; height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--muted);
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 0.75rem;
+    }
+
+    .task-item.completed .task-checkbox {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .task-checkbox:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Task text */
+    .task-text {
+      flex: 1;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: color 0.2s;
+      word-break: break-word;
+    }
+
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    /* Edit input (hidden by default) */
+    .task-edit-input {
+      flex: 1;
+      display: none;
+      background: var(--bg3);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .task-item.editing .task-text       { display: none; }
+    .task-item.editing .task-edit-input { display: block; }
+
+    /* Action buttons */
+    .task-actions {
+      display: flex;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .task-btn {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+      color: var(--muted);
+    }
+
+    .task-btn:hover { transform: scale(1.1); }
+    .task-btn:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .task-btn.edit-btn:hover   { background: rgba(249,115,22,0.15); color: var(--accent); border-color: var(--accent); }
+    .task-btn.save-btn:hover   { background: rgba(34,197,94,0.15);  color: var(--green);  border-color: var(--green); }
+    .task-btn.delete-btn:hover { background: rgba(239,68,68,0.15);  color: var(--red);    border-color: var(--red); }
+
+    /* ===== BOTTOM BAR ===== */
+    .bottom-bar {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .bottom-bar span {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    #clearCompleted {
+      background: transparent;
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      color: var(--red);
+      font-size: 0.82rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    #clearCompleted:hover {
+      background: rgba(239,68,68,0.1);
+    }
+
+    #clearCompleted:focus {
+      outline: 2px solid var(--red);
+      outline-offset: 2px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      margin-top: 3rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .stats-bar { flex-direction: row; }
+      .stat-val  { font-size: 1.3rem; }
+      .input-area { flex-direction: column; }
+      #addBtn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <p class="app-label">Thiranex · JavaScript Task</p>
+    <h1>TaskFlow</h1>
+    <p class="header-sub">Your tasks, organized. Data saved automatically.</p>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-bar" role="region" aria-label="Task statistics">
+    <div class="stat">
+      <div class="stat-val" id="statTotal">0</div>
+      <div class="stat-lbl">Total</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statActive" style="color:var(--accent2)">0</div>
+      <div class="stat-lbl">Active</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statDone" style="color:var(--green)">0</div>
+      <div class="stat-lbl">Done</div>
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-area">
+    <input
+      type="text"
+      id="taskInput"
+      placeholder="Add a new task and press Enter or click Add..."
+      aria-label="New task input"
+      maxlength="120"
+    />
+    <button id="addBtn" aria-label="Add task">+ Add</button>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters" role="group" aria-label="Filter tasks">
+    <button class="filter-btn active" data-filter="all"       aria-pressed="true">All</button>
+    <button class="filter-btn"        data-filter="active"    aria-pressed="false">Active</button>
+    <button class="filter-btn"        data-filter="completed" aria-pressed="false">Completed</button>
+  </div>
+
+  <!-- TASK LIST -->
+  <ul id="taskList" aria-label="Task list" aria-live="polite"></ul>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <span id="remainingCount">0 tasks remaining</span>
+    <button id="clearCompleted" aria-label="Clear all completed tasks">Clear Completed</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Built by Mokkapati Kavyasri ·
+      <a href="https://thiranex.in" target="_blank" rel="noopener noreferrer">Thiranex</a>
+      Web Dev Internship 2026
+    </p>
+  </footer>
+
+  <!-- =============================================
+       JAVASCRIPT - Full State Management
+  ============================================= */
+  <script>
+    // ===== STATE =====
+    let tasks       = [];       // array of task objects
+    let currentFilter = 'all'; // 'all' | 'active' | 'completed'
+
+    // Task object structure:
+    // { id: number, text: string, completed: boolean, createdAt: string }
+
+    // ===== DOM REFERENCES =====
+    const taskInput      = document.getElementById('taskInput');
+    const addBtn         = document.getElementById('addBtn');
+    const taskList       = document.getElementById('taskList');
+    const filterBtns     = document.querySelectorAll('.filter-btn');
+    const clearCompleted = document.getElementById('clearCompleted');
+    const statTotal      = document.getElementById('statTotal');
+    const statActive     = document.getElementById('statActive');
+    const statDone       = document.getElementById('statDone');
+    const remainingCount = document.getElementById('remainingCount');
+
+    // ===== LOCALSTORAGE: Load saved tasks on page load =====
+    function loadFromStorage() {
+      const saved = localStorage.getItem('taskflow_tasks');
+      if (saved) {
+        try { tasks = JSON.parse(saved); }
+        catch(e) { tasks = []; }
+      }
+    }
+
+    // ===== LOCALSTORAGE: Save tasks whenever state changes =====
+    function saveToStorage() {
+      localStorage.setItem('taskflow_tasks', JSON.stringify(tasks));
+    }
+
+    // ===== CREATE: Add new task =====
+    function addTask() {
+      const text = taskInput.value.trim();
+      if (!text) {
+        taskInput.focus();
+        taskInput.style.borderColor = 'var(--red)';
+        setTimeout(() => taskInput.style.borderColor = '', 1000);
+        return;
+      }
+
+      const newTask = {
+        id:        Date.now(),
+        text:      text,
+        completed: false,
+        createdAt: new Date().toLocaleDateString()
+      };
+
+      tasks.unshift(newTask); // add to beginning
+      taskInput.value = '';
+      saveToStorage();
+      render();
+    }
+
+    // ===== READ: Filter tasks based on current filter =====
+    function getFilteredTasks() {
+      if (currentFilter === 'active')    return tasks.filter(t => !t.completed);
+      if (currentFilter === 'completed') return tasks.filter(t =>  t.completed);
+      return tasks;
+    }
+
+    // ===== UPDATE: Toggle task complete/incomplete =====
+    function toggleTask(id) {
+      tasks = tasks.map(t =>
+        t.id === id ? { ...t, completed: !t.completed } : t
+      );
+      saveToStorage();
+      render();
+    }
+
+    // ===== UPDATE: Start editing task text =====
+    function startEdit(id) {
+      const li    = document.querySelector(`[data-id="${id}"]`);
+      const input = li.querySelector('.task-edit-input');
+      li.classList.add('editing');
+      input.value = tasks.find(t => t.id === id).text;
+      input.focus();
+
+      // Show save button, hide edit button
+      li.querySelector('.edit-btn').style.display = 'none';
+      li.querySelector('.save-btn').style.display = 'flex';
+    }
+
+    // ===== UPDATE: Save edited task =====
+    function saveEdit(id) {
+      const li    = document.querySelector(`[data-id="${id}"]`);
+      const input = li.querySelector('.task-edit-input');
+      const newText = input.value.trim();
+
+      if (!newText) return;
+
+      tasks = tasks.map(t =>
+        t.id === id ? { ...t, text: newText } : t
+      );
+      saveToStorage();
+      render();
+    }
+
+    // ===== DELETE: Remove task =====
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      saveToStorage();
+      render();
+    }
+
+    // ===== DELETE: Clear all completed =====
+    function clearAllCompleted() {
+      tasks = tasks.filter(t => !t.completed);
+      saveToStorage();
+      render();
+    }
+
+    // ===== RENDER: Build DOM from state =====
+    function render() {
+      const filtered = getFilteredTasks();
+
+      // Update stats
+      const total     = tasks.length;
+      const done      = tasks.filter(t => t.completed).length;
+      const active    = total - done;
+
+      statTotal.textContent    = total;
+      statActive.textContent   = active;
+      statDone.textContent     = done;
+      remainingCount.textContent = `${active} task${active !== 1 ? 's' : ''} remaining`;
+
+      // Empty state
+      if (filtered.length === 0) {
+        taskList.innerHTML = `
+          <li class="empty-state" role="status">
+            <div class="empty-icon">📋</div>
+            <p class="empty-text">${
+              currentFilter === 'completed' ? 'No completed tasks yet.' :
+              currentFilter === 'active'    ? 'No active tasks. Add one above!' :
+              'No tasks yet. Add your first task above!'
+            }</p>
+          </li>`;
+        return;
+      }
+
+      // Build task list HTML using template literals
+      taskList.innerHTML = filtered.map(task => `
+        <li
+          class="task-item ${task.completed ? 'completed' : ''}"
+          data-id="${task.id}"
+          role="listitem"
+          aria-label="Task: ${task.text}${task.completed ? ', completed' : ''}"
+        >
+          <button
+            class="task-checkbox"
+            aria-label="${task.completed ? 'Mark incomplete' : 'Mark complete'}"
+            aria-pressed="${task.completed}"
+            onclick="toggleTask(${task.id})"
+          >${task.completed ? '✓' : ''}</button>
+
+          <span class="task-text">${escapeHtml(task.text)}</span>
+          <input
+            class="task-edit-input"
+            type="text"
+            aria-label="Edit task text"
+            maxlength="120"
+            onkeydown="if(event.key==='Enter') saveEdit(${task.id}); if(event.key==='Escape') render();"
+          />
+
+          <div class="task-actions">
+            <button
+              class="task-btn edit-btn"
+              aria-label="Edit task"
+              onclick="startEdit(${task.id})"
+              ${task.completed ? 'disabled style="opacity:0.3;cursor:not-allowed"' : ''}
+            >✏️</button>
+            <button
+              class="task-btn save-btn"
+              aria-label="Save edit"
+              style="display:none"
+              onclick="saveEdit(${task.id})"
+            >💾</button>
+            <button
+              class="task-btn delete-btn"
+              aria-label="Delete task"
+              onclick="deleteTask(${task.id})"
+            >🗑️</button>
+          </div>
+        </li>
+      `).join('');
+    }
+
+    // ===== UTILITY: Escape HTML to prevent XSS =====
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(text));
+      return div.innerHTML;
+    }
+
+    // ===== EVENT LISTENERS =====
+
+    // Add task on button click
+    addBtn.addEventListener('click', addTask);
+
+    // Add task on Enter key
+    taskInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addTask();
+    });
+
+    // Filter buttons — delegated event listener
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentFilter = btn.dataset.filter;
+
+        // Update active state and aria-pressed
+        filterBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        render();
+      });
+    });
+
+    // Clear completed tasks
+    clearCompleted.addEventListener('click', clearAllCompleted);
+
+    // ===== INIT: Load from localStorage and render =====
+    loadFromStorage();
+    render();
+  </script>
+
+</body>
+</html>
